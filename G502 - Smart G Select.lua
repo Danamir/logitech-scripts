@@ -5,6 +5,7 @@ function OnEvent(event, arg)
 	-- Keep G Selector initial functionality.
 	--
 	-- Configure the smartButton variable to your assigned G Selector button, by default 6 is the "snipe" button.
+	-- Set smartButton8Way to true to enable 8-way gestures with narrower directions, by default handle 4-way gestures.
 	-- Create macros and alter the Left/Right/Up/Down/... PlayMacro("MacroName") sections of the code.
 	-- Or write directly PressKey()/ReleaseKey() actions.
 
@@ -13,7 +14,7 @@ function OnEvent(event, arg)
 
 	-- Smart button / G Selector --
 	smartButton = 6  -- The button affected to G Selector in Logitech control panel (default 6 = "snipe" thubm button)
-	
+	smartButton8Way = false  -- Set to false for U/D/L/R gestures only, otherwise also handle the diagonals (greater leeway in 4-way mode)
 	smartButtonDeltaMin = 100  -- Minimum click time before registering a movement
 	smartButtonDelta = 350  -- Time to register a long click
 	smartButtonDistanceMin = 1000  -- Minimum distance to register a movement
@@ -73,21 +74,24 @@ function OnEvent(event, arg)
 					end
 				end
 
-			elseif (180 >= smAngle and smAngle > 157.5) or (-157.5 > smAngle and smAngle >= -180)  then
+			elseif (smartButton8Way and ((180 >= smAngle and smAngle > 157.5) or (-157.5 > smAngle and smAngle >= -180)))
+				or (not smartButton8Way and ((180 >= smAngle and smAngle > 135) or (-135 > smAngle and smAngle >= -180)))then
 				-- Left
 				OutputLogMessage("Left \n")
 				if not debug then
 					PlayMacro("Send to previous monitor")
 				end
 
-			elseif 22.5 >= smAngle and smAngle > -22.5 then
+			elseif (smartButton8Way and 22.5 >= smAngle and smAngle > -22.5)
+				or (not smartButton8Way and 45 >= smAngle and smAngle > -45) then
 				-- Right
 				OutputLogMessage("Right \n")
 				if not debug then
 					PlayMacro("Send to next monitor")
 				end
 
-			elseif -67.5 >= smAngle and smAngle > -112.5 then
+			elseif (smartButton8Way and -67.5 >= smAngle and smAngle > -112.5)
+				or (not smartButton8Way and -45 >= smAngle and smAngle > -135) then
 				-- Up
 				OutputLogMessage("Up \n")
 				if not debug then
@@ -95,35 +99,36 @@ function OnEvent(event, arg)
 					ReleaseKey("escape")
 				end
 
-			elseif 112.5 >= smAngle and smAngle > 67.5 then
+			elseif (smartButton8Way and 112.5 >= smAngle and smAngle > 67.5)
+				or (not smartButton8Way and 135 >= smAngle and smAngle > 45) then
 				-- Down
 				OutputLogMessage("Down \n")
 				if not debug then
 					PlayMacro("Minimize window")
 				end
 
-			elseif -112.5 >= smAngle and smAngle > -157.5 then
+			elseif smartButton8Way and -112.5 >= smAngle and smAngle > -157.5 then
 				-- Up Left
 				OutputLogMessage("Up Left \n")
 				if not debug then
 					--PlayMacro("")
 				end
 			
-			elseif -22.5 >= smAngle and smAngle > -67.5 then
+			elseif smartButton8Way and -22.5 >= smAngle and smAngle > -67.5 then
 				-- Up Right
 				OutputLogMessage("Up Right \n")
 				if not debug then
 					--PlayMacro("")
 				end
 
-			elseif 157.5 >= smAngle and smAngle > 112.5 then
+			elseif smartButton8Way and 157.5 >= smAngle and smAngle > 112.5 then
 				-- Down Left
 				OutputLogMessage("Down Left \n")
 				if not debug then
 					--PlayMacro("")
 				end
 
-			elseif 67.5 >= smAngle and smAngle > 22.5 then
+			elseif smartButton8Way and 67.5 >= smAngle and smAngle > 22.5 then
 				-- Donw Right
 				OutputLogMessage("Down Right \n")
 				if not debug then

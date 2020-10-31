@@ -13,7 +13,8 @@ Launch a default empty script and watch the result of the `OutputLogMessage("Eve
 Handle gestures, short click, and long click actions with the G Selector button.  
 Keep G Selector initial functionality.
 	
-Configure the smartButton variable to your assigned G Selector button, by default 6 is the "snipe" button.  
+Configure the smartButton variable to your assigned G Selector button, by default 6 is the "snipe" button.
+Set `smartButton8Way` to `true` to enable 8-way gestures with narrower directions, by default handle 4-way gestures. 
 Create macros and alter the Left/Right/Up/Down/... `PlayMacro("MacroName")` sections of the code.  
 Or write directly `PressKey()` and `ReleaseKey()` actions.
 
